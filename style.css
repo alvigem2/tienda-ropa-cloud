@@ -1,32 +1,47 @@
 body {
-  font-family: sans-serif;
-  padding: 20px;
-  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 20px;
+  padding: 0;
+  text-align: center;
 }
 
 #productos {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
-.producto {
-  background: white;
+.producto-card {
+  background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 10px #ccc;
-  padding: 10px;
-  width: 200px;
-  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 250px;
+  padding: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.producto-card:hover {
+  transform: scale(1.03);
+}
+
+.producto-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 #btnWhatsapp {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #25D366;
+  background: #25D366;
   color: white;
-  padding: 10px 20px;
-  border-radius: 50px;
+  padding: 12px 20px;
+  border-radius: 30px;
   text-decoration: none;
   font-weight: bold;
 }
