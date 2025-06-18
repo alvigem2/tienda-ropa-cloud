@@ -34,6 +34,16 @@ body {
   border-radius: 8px;
 }
 
+button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
 #btnWhatsapp {
   position: fixed;
   bottom: 20px;
