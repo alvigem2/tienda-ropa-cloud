@@ -1,0 +1,32 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background-color: #f2f2f2;
+}
+
+#productos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.producto {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+}
+
+#btnWhatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25D366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+}
