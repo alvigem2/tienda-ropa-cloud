@@ -281,9 +281,8 @@ nav {
   transform: translateX(0);
 }
 
-
-#carritoPanel.mostrar {
-  transform: translateX(0);
+#mensajeAgregado.oculto {
+  display: none;
 }
 
 #carritoPanel h3 {
