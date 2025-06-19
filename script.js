@@ -1,18 +1,38 @@
+// script.js
 import { db } from "./firebase-config.js";
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  collection,
+  getDocs,
+  query,
+  where
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// Elementos del DOM
 const contenedor = document.getElementById("productos");
-const listaCarrito = document.getElementById("lista-carrito");
-const totalElemento = document.getElementById("total");
-const btnFinalizar = document.getElementById("btnFinalizar");
-const carritoDiv = document.getElementById("carrito");
+const bienvenida = document.getElementById("bienvenida");
+const acerca = document.getElementById("acerca");
 
-let carrito = [];
-let total = 0;
+// Oculta bienvenida al hacer scroll
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    bienvenida.style.display = "none";
+  }
+});
 
-async function cargarProductos() {
-  const productosRef = collection(db, "productos");
-  const querySnapshot = await getDocs(productosRef);
+// Muestra todos los productos
+async function cargarProductos(filtroCategoria = null) {
+  contenedor.innerHTML = "";
+
+  let productosRef = collection(db, "productos");
+  let q = filtroCategoria
+    ? query(productosRef, where("categoria", "==", filtroCategoria))
+    : query(productosRef);
+
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.empty) {
+    contenedor.innerHTML = "<p>No hay productos en esta categoría.</p>";
+    return;
+  }
 
   querySnapshot.forEach((doc) => {
     const p = doc.data();
@@ -20,40 +40,36 @@ async function cargarProductos() {
     const card = document.createElement("div");
     card.className = "producto-card";
 
-    const btnAgregar = document.createElement("button");
-    btnAgregar.textContent = "Agregar al carrito";
-    btnAgregar.onclick = () => agregarAlCarrito(p);
-
     card.innerHTML = `
       <img src="${p.imagen}" alt="${p.nombre}">
       <h3>${p.nombre}</h3>
       <p>${p.descripcion}</p>
       <p><strong>Bs ${p.precio}</strong></p>
+      <button>Agregar al carrito</button>
     `;
-    card.appendChild(btnAgregar);
+
     contenedor.appendChild(card);
   });
 }
 
-function agregarAlCarrito(producto) {
-  carrito.push(producto);
-  total += producto.precio;
+// Detectar clics en los botones de categoría
+document.querySelectorAll("[data-categoria]").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const categoria = btn.dataset.categoria;
+    bienvenida.style.display = "none";
+    acerca.style.display = "none";
+    cargarProductos(categoria);
+  });
+});
 
-  // Mostrar carrito
-  carritoDiv.classList.remove("carrito-hidden");
+// Botón "Inicio"
+document.getElementById("btnInicio").addEventListener("click", (e) => {
+  e.preventDefault();
+  bienvenida.style.display = "flex";
+  acerca.style.display = "block";
+  cargarProductos(); // Mostrar todos
+});
 
-  // Mostrar productos
-  const item = document.createElement("li");
-  item.textContent = `${producto.nombre} - Bs ${producto.precio}`;
-  listaCarrito.appendChild(item);
-
-  // Actualizar total
-  totalElemento.textContent = total;
-
-  // Actualizar link de WhatsApp
-  const mensaje = carrito.map(p => `${p.nombre} - Bs ${p.precio}`).join('\n') + `\nTotal: Bs ${total}`;
-  const mensajeEncoded = encodeURIComponent(mensaje);
-  btnFinalizar.href = `https://wa.me/59172553154?text=${mensajeEncoded}`;
-}
-
+// Inicial
 cargarProductos();
