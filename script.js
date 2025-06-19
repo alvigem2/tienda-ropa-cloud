@@ -17,6 +17,7 @@ const carritoIcono = document.getElementById("carritoIcono");
 const carritoPanel = document.getElementById("carritoPanel");
 const listaCarrito = document.getElementById("listaCarrito");
 const btnWhatsapp = document.getElementById("btnConfirmarWhatsapp");
+const cerrarCarrito = document.getElementById("cerrarCarrito");
 
 // Carrito simulado
 let carrito = [];
@@ -72,16 +73,31 @@ function actualizarCarrito() {
   if (carrito.length === 0) {
     listaCarrito.innerHTML = "<li>El carrito está vacío.</li>";
     btnWhatsapp.classList.add("oculto");
+    document.getElementById("totalCarrito").textContent = "Total: 0 Bs";
     return;
   }
 
   carrito.forEach((item, index) => {
     const li = document.createElement("li");
-    li.textContent = `${item.nombre} - Bs ${item.precio}`;
+    li.innerHTML = `
+      ${item.nombre} - Bs ${item.precio}
+      <button data-index="${index}" style="margin-left:10px; background:none; border:none; color:red; font-weight:bold; cursor:pointer;">❌</button>
+    `;
     listaCarrito.appendChild(li);
   });
 
+  // Escuchar botones de eliminar
+  listaCarrito.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = btn.dataset.index;
+      carrito.splice(index, 1);
+      actualizarCarrito();
+    });
+  });
+
   const total = carrito.reduce((sum, item) => sum + item.precio, 0);
+  document.getElementById("totalCarrito").textContent = `Total: ${total} Bs`;
+
   const mensaje = encodeURIComponent(
     `Hola, quiero comprar lo siguiente:\n\n${carrito.map(i => `- ${i.nombre} (${i.precio} Bs)`).join("\n")}\n\nTotal: ${total} Bs`
   );
@@ -121,5 +137,11 @@ carritoIcono.addEventListener("click", () => {
   carritoPanel.classList.toggle("mostrar");
 });
 
+// Botón cerrar carrito
+cerrarCarrito.addEventListener("click", () => {
+  carritoPanel.classList.remove("mostrar");
+});
+
 // Inicial
 cargarProductos();
+

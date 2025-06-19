@@ -181,7 +181,7 @@ nav {
   text-align: center;
 }
 
-/* WHATSAPP */
+/* WHATSAPP FLOTANTE */
 #btnWhatsapp {
   position: fixed;
   bottom: 80px;
@@ -207,19 +207,34 @@ nav {
   }
 }
 
-/* Responsive */
+/* RESPONSIVE MENU (MÓVIL) */
 @media (max-width: 768px) {
   .menu {
-    display: none; /* Ocultar menú horizontal */
+    flex-direction: column;
+    display: none;
+    background-color: #000;
+    width: 100%;
+    padding: 1rem 0;
+  }
+
+  .menu.mostrar {
+    display: flex;
+  }
+
+  #btnHamburguesa {
+    display: block;
   }
 
   nav {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .submenu {
     position: static;
+    background-color: #111;
+    border-radius: 0;
   }
 
   #btnWhatsapp {
@@ -241,6 +256,7 @@ nav {
 #carritoIcono {
   font-size: 1.5rem;
   cursor: pointer;
+  color: white;
 }
 
 /* PANEL DEL CARRITO */
@@ -279,6 +295,11 @@ nav {
   border-bottom: 1px solid #ccc;
 }
 
+#carritoPanel p#totalCarrito {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
 #btnConfirmarWhatsapp {
   display: inline-block;
   margin-top: 1rem;
@@ -299,35 +320,4 @@ nav {
 /* OCULTAR */
 .oculto {
   display: none;
-}
-
-/* RESPONSIVE MENU (MÓVIL) */
-@media (max-width: 768px) {
-  .menu {
-    flex-direction: column;
-    display: none;
-    background-color: #000;
-    width: 100%;
-    padding: 1rem 0;
-  }
-
-  .menu.mostrar {
-    display: flex;
-  }
-
-  #btnHamburguesa {
-    display: block;
-  }
-
-  nav {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .submenu {
-    position: static;
-    background-color: #111;
-    border-radius: 0;
-  }
 }
