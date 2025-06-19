@@ -25,6 +25,7 @@ let carrito = [];
 // Mostrar productos filtrados
 async function cargarProductos(filtroCategoria = null) {
   contenedor.innerHTML = "";
+  document.getElementById("loader").classList.remove("oculto");
 
   let productosRef = collection(db, "productos");
   let q = filtroCategoria
@@ -32,6 +33,9 @@ async function cargarProductos(filtroCategoria = null) {
     : query(productosRef);
 
   const querySnapshot = await getDocs(q);
+
+  document.getElementById("loader").classList.add("oculto"); // Ocultar loader después
+
   if (querySnapshot.empty) {
     contenedor.innerHTML = "<p>No hay productos en esta categoría.</p>";
     return;
@@ -39,7 +43,6 @@ async function cargarProductos(filtroCategoria = null) {
 
   querySnapshot.forEach((doc) => {
     const p = doc.data();
-
     const card = document.createElement("div");
     card.className = "producto-card";
 
@@ -54,13 +57,11 @@ async function cargarProductos(filtroCategoria = null) {
     contenedor.appendChild(card);
   });
 
-  // Escuchar botones de "Agregar al carrito"
+  // Botones "Agregar al carrito"
   document.querySelectorAll(".producto-card button").forEach(btn => {
     btn.addEventListener("click", () => {
       const nombre = btn.dataset.nombre;
       const precio = parseFloat(btn.dataset.precio);
-
-      // Ver si ya está en el carrito
       const productoExistente = carrito.find(item => item.nombre === nombre);
       if (productoExistente) {
         productoExistente.cantidad++;
@@ -72,7 +73,6 @@ async function cargarProductos(filtroCategoria = null) {
       const mensaje = document.getElementById("mensajeAgregado");
       mensaje.classList.add("mostrar");
       mensaje.classList.remove("oculto");
-
       setTimeout(() => {
         mensaje.classList.remove("mostrar");
         mensaje.classList.add("oculto");
@@ -80,6 +80,7 @@ async function cargarProductos(filtroCategoria = null) {
     });
   });
 }
+
 
 // Mostrar carrito
 function actualizarCarrito() {
