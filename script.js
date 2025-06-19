@@ -104,6 +104,9 @@ function actualizarCarrito() {
 
   btnWhatsapp.href = `https://wa.me/59172553154?text=${mensaje}`;
   btnWhatsapp.classList.remove("oculto");
+
+  document.getElementById("contadorCarrito").textContent = carrito.length;
+
 }
 
 // Menú hamburguesa
