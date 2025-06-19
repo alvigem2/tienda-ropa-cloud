@@ -60,8 +60,23 @@ async function cargarProductos(filtroCategoria = null) {
       const nombre = btn.dataset.nombre;
       const precio = parseFloat(btn.dataset.precio);
 
-      carrito.push({ nombre, precio });
+      // Ver si ya está en el carrito
+      const productoExistente = carrito.find(item => item.nombre === nombre);
+      if (productoExistente) {
+        productoExistente.cantidad++;
+      } else {
+        carrito.push({ nombre, precio, cantidad: 1 });
+      }
       actualizarCarrito();
+
+      const mensaje = document.getElementById("mensajeAgregado");
+      mensaje.classList.add("mostrar");
+      mensaje.classList.remove("oculto");
+
+      setTimeout(() => {
+        mensaje.classList.remove("mostrar");
+        mensaje.classList.add("oculto");
+      }, 1500);
     });
   });
 }
@@ -79,12 +94,14 @@ function actualizarCarrito() {
 
   carrito.forEach((item, index) => {
     const li = document.createElement("li");
+    const subtotal = item.precio * item.cantidad;
     li.innerHTML = `
-      ${item.nombre} - Bs ${item.precio}
-      <button data-index="${index}" style="margin-left:10px; background:none; border:none; color:red; font-weight:bold; cursor:pointer;">❌</button>
+      ${item.nombre} x${item.cantidad} - Bs ${subtotal}
+      <button class="btnQuitar" data-index="${index}">➖</button>
     `;
     listaCarrito.appendChild(li);
   });
+
 
   // Escuchar botones de eliminar
   listaCarrito.querySelectorAll("button").forEach(btn => {
@@ -95,11 +112,13 @@ function actualizarCarrito() {
     });
   });
 
-  const total = carrito.reduce((sum, item) => sum + item.precio, 0);
+  const total = carrito.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
   document.getElementById("totalCarrito").textContent = `Total: ${total} Bs`;
 
   const mensaje = encodeURIComponent(
-    `Hola, quiero comprar lo siguiente:\n\n${carrito.map(i => `- ${i.nombre} (${i.precio} Bs)`).join("\n")}\n\nTotal: ${total} Bs`
+    `Hola, quiero comprar lo siguiente:\n\n` +
+    carrito.map(i => `- ${i.nombre} x${i.cantidad} (${i.precio} Bs c/u)`).join("\n") +
+    `\n\nTotal: ${total} Bs`
   );
 
   btnWhatsapp.href = `https://wa.me/59172553154?text=${mensaje}`;
