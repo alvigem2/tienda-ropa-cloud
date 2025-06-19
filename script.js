@@ -164,6 +164,26 @@ cerrarCarrito.addEventListener("click", () => {
   carritoPanel.classList.remove("mostrar");
 });
 
+// Búsqueda por texto
+const buscador = document.getElementById("buscador");
+buscador.addEventListener("input", () => {
+  const texto = buscador.value.toLowerCase();
+
+  // Ocultar bienvenida y acerca
+  bienvenida.style.display = "none";
+  acerca.style.display = "none";
+
+  // Filtrar el DOM directamente
+  document.querySelectorAll(".producto-card").forEach(card => {
+    const nombre = card.querySelector("h3").textContent.toLowerCase();
+    const descripcion = card.querySelector("p").textContent.toLowerCase();
+    const coincide = nombre.includes(texto) || descripcion.includes(texto);
+
+    card.style.display = coincide ? "block" : "none";
+  });
+});
+
+
 // Inicial
 cargarProductos();
 

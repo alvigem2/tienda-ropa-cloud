@@ -370,3 +370,40 @@ nav {
   cursor: pointer;
   margin-left: 8px;
 }
+
+/* BUSCADOR */
+#buscadorSection {
+  text-align: center;
+  margin: 2rem 0 1rem;
+}
+
+.buscador-contenedor {
+  position: relative;
+  display: inline-block;
+  width: 90%;
+  max-width: 400px;
+}
+
+.buscador-contenedor input {
+  width: 100%;
+  padding: 10px 40px 10px 36px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+.buscador-contenedor input:focus {
+  outline: none;
+  border-color: #25D366;
+  background-color: #f9f9f9;
+}
+
+.icono-buscar {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: #888;
+}
