@@ -283,7 +283,7 @@ body.dark-mode #btnModoOscuro:hover {
 }
 
 /* Mostrar el botón solo en pantallas pequeñas */
-@media (max-width: 990px) {
+@media (max-width: 768px) {
   #btnHamburguesa {
     display: block;
   }
