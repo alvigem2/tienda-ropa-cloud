@@ -411,6 +411,7 @@ nav {
   color: #888;
 }
 
+/* === MODO OSCURO === */
 body.dark-mode {
   background-color: #121212;
   color: #ddd;
@@ -427,6 +428,10 @@ body.dark-mode #carritoIcono {
   color: #a2d5a2;
 }
 
+body.dark-mode .submenu {
+  background-color: #1f1f1f;
+}
+
 body.dark-mode #bienvenida {
   background: linear-gradient(to right, #3c6e47, #25523a);
   color: #eee;
@@ -435,6 +440,16 @@ body.dark-mode #bienvenida {
 body.dark-mode #bienvenida span {
   color: #121212;
   background-color: #a2d5a2;
+}
+
+body.dark-mode .btn-scroll {
+  background-color: #eee;
+  color: #121212;
+}
+
+body.dark-mode .btn-scroll:hover {
+  background-color: #25D366;
+  color: white;
 }
 
 body.dark-mode #productos .producto-card {
@@ -485,4 +500,8 @@ body.dark-mode .icono-buscar {
 body.dark-mode #btnWhatsapp {
   background-color: #3c6e47;
   color: #eee;
+}
+
+body.dark-mode #btnWhatsapp:hover {
+  background-color: #1b3f2c;
 }

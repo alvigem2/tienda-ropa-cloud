@@ -183,10 +183,18 @@ buscador.addEventListener("input", () => {
   });
 });
 
+// Botón para activar/desactivar modo oscuro
 const btnModoOscuro = document.getElementById("btnModoOscuro");
 
 btnModoOscuro.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
+
+  // Cambiar icono según modo
+  if(document.body.classList.contains("dark-mode")) {
+    btnModoOscuro.textContent = "☀️"; // sol para modo claro
+  } else {
+    btnModoOscuro.textContent = "🌙"; // luna para modo oscuro
+  }
 });
 
 
