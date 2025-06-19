@@ -281,6 +281,11 @@ nav {
   transform: translateX(0);
 }
 
+
+#carritoPanel.mostrar {
+  transform: translateX(0);
+}
+
 #carritoPanel h3 {
   margin-bottom: 1rem;
 }
@@ -316,11 +321,6 @@ nav {
 
 #btnConfirmarWhatsapp:hover {
   background-color: #128C7E;
-}
-
-/* OCULTAR */
-.oculto {
-  display: none;
 }
 
 #carritoIcono {
