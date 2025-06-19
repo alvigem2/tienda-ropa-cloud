@@ -12,14 +12,7 @@ const contenedor = document.getElementById("productos");
 const bienvenida = document.getElementById("bienvenida");
 const acerca = document.getElementById("acerca");
 
-// Oculta bienvenida al hacer scroll
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 50) {
-    bienvenida.style.display = "none";
-  }
-});
-
-// Muestra todos los productos
+// Muestra productos filtrados
 async function cargarProductos(filtroCategoria = null) {
   contenedor.innerHTML = "";
 
@@ -52,7 +45,7 @@ async function cargarProductos(filtroCategoria = null) {
   });
 }
 
-// Detectar clics en los botones de categoría
+// Filtro por categoría
 document.querySelectorAll("[data-categoria]").forEach((btn) => {
   btn.addEventListener("click", (e) => {
     e.preventDefault();
