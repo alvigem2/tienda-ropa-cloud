@@ -11,8 +11,16 @@
   <!-- NAVBAR -->
   <header>
     <nav id="navbar">
-      <h2 class="logo">UrbanStyle</h2>
-      <ul class="menu">
+      <h2 class="logo" id="logoInicio">UrbanStyle</h2>
+
+      <!-- Botón hamburguesa solo visible en móviles -->
+      <button id="btnHamburguesa" class="hamburguesa">☰</button>
+
+      <!-- Menú de navegación -->
+      <ul class="menu" id="menu">
+        <button id="btnHamburguesa">☰</button>
+<span id="carritoIcono">🛒</span>
+
         <li><a href="#inicio" id="btnInicio">Inicio</a></li>
         <li>
           <a href="#">Productos</a>
@@ -25,8 +33,12 @@
         </li>
         <li><a href="#acerca">Acerca de</a></li>
       </ul>
+
+      <!-- Ícono de carrito -->
+      <div id="carritoIcono">🛒</div>
     </nav>
   </header>
+
 
   <!-- BIENVENIDA -->
   <section id="bienvenida">
@@ -46,11 +58,27 @@
     <p>Somos una tienda ficticia creada para demostrar el poder del desarrollo web y la nube. Este proyecto fue construido con HTML, CSS, JS y Firebase.</p>
   </section>
 
+  <!-- PANEL DEL CARRITO -->
+  <div id="carritoPanel" class="oculto">
+    <h3>Mi Carrito</h3>
+    <ul id="listaCarrito"></ul>
+    <p id="totalCarrito">Total: 0 Bs</p>
+    <a id="btnConfirmarWhatsapp" href="#" target="_blank">Confirmar por WhatsApp</a>
+  </div>
+
   <!-- WHATSAPP -->
   <a href="https://wa.me/59172553154" target="_blank" id="btnWhatsapp">💬 WhatsApp</a>
 
   <!-- SCRIPTS -->
   <script type="module" src="firebase-config.js"></script>
   <script type="module" src="script.js"></script>
+
+  <!--Pnael del carrito-->
+  <div id="carritoPanel" class="oculto">
+    <h3>Mi Carrito</h3>
+    <ul id="listaCarrito"></ul>
+    <a id="btnConfirmarWhatsapp" href="#" target="_blank">Confirmar por WhatsApp</a>
+  </div>
+
 </body>
 </html>
