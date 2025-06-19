@@ -144,13 +144,16 @@ nav {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   width: 250px;
   padding: 1rem;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
   animation: fadeIn 0.5s ease;
+  cursor: pointer; /* para indicar que es interactivo */
 }
 
 .producto-card:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  z-index: 10; /* para que no quede debajo de otros elementos */
 }
 
 .producto-card img {
@@ -406,4 +409,80 @@ nav {
   transform: translateY(-50%);
   font-size: 1.1rem;
   color: #888;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #ddd;
+}
+
+body.dark-mode header {
+  background-color: #1f1f1f;
+}
+
+body.dark-mode nav .menu a,
+body.dark-mode nav .submenu a,
+body.dark-mode nav .logo a,
+body.dark-mode #carritoIcono {
+  color: #a2d5a2;
+}
+
+body.dark-mode #bienvenida {
+  background: linear-gradient(to right, #3c6e47, #25523a);
+  color: #eee;
+}
+
+body.dark-mode #bienvenida span {
+  color: #121212;
+  background-color: #a2d5a2;
+}
+
+body.dark-mode #productos .producto-card {
+  background-color: #222;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.8);
+  color: #ddd;
+}
+
+body.dark-mode #productos .producto-card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,1);
+}
+
+body.dark-mode #acerca {
+  background-color: #1f1f1f;
+  color: #ccc;
+}
+
+body.dark-mode #carritoPanel {
+  background-color: #222;
+  color: #ddd;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.8);
+}
+
+body.dark-mode #btnConfirmarWhatsapp {
+  background-color: #3c6e47;
+  color: #eee;
+}
+
+body.dark-mode #btnConfirmarWhatsapp:hover {
+  background-color: #25523a;
+}
+
+body.dark-mode .buscador-contenedor input {
+  background-color: #333;
+  color: #eee;
+  border-color: #555;
+}
+
+body.dark-mode .buscador-contenedor input:focus {
+  background-color: #444;
+  border-color: #7ec384;
+}
+
+body.dark-mode .icono-buscar {
+  color: #a2d5a2;
+}
+
+body.dark-mode #btnWhatsapp {
+  background-color: #3c6e47;
+  color: #eee;
 }

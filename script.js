@@ -183,6 +183,12 @@ buscador.addEventListener("input", () => {
   });
 });
 
+const btnModoOscuro = document.getElementById("btnModoOscuro");
+
+btnModoOscuro.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+});
+
 
 // Inicial
 cargarProductos();
