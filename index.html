@@ -32,9 +32,7 @@
       </ul>
 
       <!-- Botón para modo oscuro -->
-      <button id="btnModoOscuro" title="Alternar modo oscuro" style="margin-left: 10px; padding: 5px 10px; cursor: pointer;">
-        🌙
-      </button>
+      <button id="btnModoOscuro" title="Alternar modo oscuro">🌙</button>
 
       <!-- Ícono de carrito -->
       <div id="carritoIcono">
@@ -48,10 +46,6 @@
     <h1>Bienvenido a <span>UrbanStyle</span></h1>
     <p>Tu tienda online de ropa urbana, cómoda y moderna.</p>
     <a href="#productos" class="btn-scroll">Ver productos</a>
-    <div id="loader" class="oculto">
-      <div class="spinner"></div>
-      <p>Cargando productos...</p>
-    </div>
   </section>
 
   <!-- BUSCADOR -->
@@ -61,6 +55,12 @@
       <input type="text" id="buscador" placeholder="Buscar productos...">
     </div>
   </section>
+
+  <!-- LOADER (solo para filtros de categoría) -->
+  <div id="loader" class="oculto">
+    <div class="spinner"></div>
+    <p>Cargando productos...</p>
+  </div>
 
   <!-- PRODUCTOS -->
   <main>
@@ -75,7 +75,7 @@
 
   <!-- PANEL DEL CARRITO -->
   <div id="carritoPanel">
-    <button id="cerrarCarrito" style="float:right; background:none; border:none; font-size:1.2rem; cursor:pointer;">✖</button>
+    <button id="cerrarCarrito">✖</button>
     <h3>Mi Carrito</h3>
     <ul id="listaCarrito"></ul>
     <p id="totalCarrito">Total: 0 Bs</p>

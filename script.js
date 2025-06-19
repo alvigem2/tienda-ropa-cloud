@@ -7,45 +7,45 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Elementos del DOM
-const contenedor = document.getElementById("productos");
-const bienvenida = document.getElementById("bienvenida");
-const acerca = document.getElementById("acerca");
-const btnInicio = document.getElementById("btnInicio");
+const contenedor     = document.getElementById("productos");
+const bienvenida     = document.getElementById("bienvenida");
+const acerca         = document.getElementById("acerca");
+const btnInicio      = document.getElementById("btnInicio");
 const btnHamburguesa = document.getElementById("btnHamburguesa");
-const menu = document.querySelector(".menu");
-const carritoIcono = document.getElementById("carritoIcono");
-const carritoPanel = document.getElementById("carritoPanel");
-const listaCarrito = document.getElementById("listaCarrito");
-const btnWhatsapp = document.getElementById("btnConfirmarWhatsapp");
-const cerrarCarrito = document.getElementById("cerrarCarrito");
+const menu           = document.querySelector(".menu");
+const carritoIcono   = document.getElementById("carritoIcono");
+const carritoPanel   = document.getElementById("carritoPanel");
+const listaCarrito   = document.getElementById("listaCarrito");
+const btnWhatsapp    = document.getElementById("btnConfirmarWhatsapp");
+const cerrarCarrito  = document.getElementById("cerrarCarrito");
+const buscador       = document.getElementById("buscador");
+const btnModoOscuro  = document.getElementById("btnModoOscuro");
+const loader         = document.getElementById("loader");
 
-// Carrito simulado
 let carrito = [];
 
-// Mostrar productos filtrados
+// Función para cargar productos (con loader)
 async function cargarProductos(filtroCategoria = null) {
   contenedor.innerHTML = "";
-  document.getElementById("loader").classList.remove("oculto");
+  loader.classList.remove("oculto");
 
-  let productosRef = collection(db, "productos");
-  let q = filtroCategoria
+  const productosRef = collection(db, "productos");
+  const q = filtroCategoria
     ? query(productosRef, where("categoria", "==", filtroCategoria))
     : query(productosRef);
 
   const querySnapshot = await getDocs(q);
-
-  document.getElementById("loader").classList.add("oculto"); // Ocultar loader después
+  loader.classList.add("oculto");
 
   if (querySnapshot.empty) {
     contenedor.innerHTML = "<p>No hay productos en esta categoría.</p>";
     return;
   }
 
-  querySnapshot.forEach((doc) => {
+  querySnapshot.forEach(doc => {
     const p = doc.data();
     const card = document.createElement("div");
     card.className = "producto-card";
-
     card.innerHTML = `
       <img src="${p.imagen}" alt="${p.nombre}">
       <h3>${p.nombre}</h3>
@@ -53,7 +53,6 @@ async function cargarProductos(filtroCategoria = null) {
       <p><strong>Bs ${p.precio}</strong></p>
       <button data-nombre="${p.nombre}" data-precio="${p.precio}">Agregar al carrito</button>
     `;
-
     contenedor.appendChild(card);
   });
 
@@ -62,27 +61,26 @@ async function cargarProductos(filtroCategoria = null) {
     btn.addEventListener("click", () => {
       const nombre = btn.dataset.nombre;
       const precio = parseFloat(btn.dataset.precio);
-      const productoExistente = carrito.find(item => item.nombre === nombre);
-      if (productoExistente) {
-        productoExistente.cantidad++;
+      const existe = carrito.find(item => item.nombre === nombre);
+      if (existe) {
+        existe.cantidad++;
       } else {
         carrito.push({ nombre, precio, cantidad: 1 });
       }
       actualizarCarrito();
-
-      const mensaje = document.getElementById("mensajeAgregado");
-      mensaje.classList.add("mostrar");
-      mensaje.classList.remove("oculto");
+      // Mensaje flotante
+      const msg = document.getElementById("mensajeAgregado");
+      msg.classList.add("mostrar");
+      msg.classList.remove("oculto");
       setTimeout(() => {
-        mensaje.classList.remove("mostrar");
-        mensaje.classList.add("oculto");
+        msg.classList.remove("mostrar");
+        msg.classList.add("oculto");
       }, 1500);
     });
   });
 }
 
-
-// Mostrar carrito
+// Función para actualizar carrito
 function actualizarCarrito() {
   listaCarrito.innerHTML = "";
 
@@ -90,44 +88,48 @@ function actualizarCarrito() {
     listaCarrito.innerHTML = "<li>El carrito está vacío.</li>";
     btnWhatsapp.classList.add("oculto");
     document.getElementById("totalCarrito").textContent = "Total: 0 Bs";
+    document.getElementById("contadorCarrito").textContent = "0";
     return;
   }
 
-  carrito.forEach((item, index) => {
-    const li = document.createElement("li");
+  carrito.forEach((item, i) => {
     const subtotal = item.precio * item.cantidad;
+    const li = document.createElement("li");
     li.innerHTML = `
       ${item.nombre} x${item.cantidad} - Bs ${subtotal}
-      <button class="btnQuitar" data-index="${index}">➖</button>
+      <button class="btnQuitar" data-index="${i}">➖</button>
     `;
     listaCarrito.appendChild(li);
   });
 
-
-  // Escuchar botones de eliminar
-  listaCarrito.querySelectorAll("button").forEach(btn => {
+  // Quitar unidad o producto
+  listaCarrito.querySelectorAll(".btnQuitar").forEach(btn => {
     btn.addEventListener("click", () => {
-      const index = btn.dataset.index;
-      carrito.splice(index, 1);
+      const idx = btn.dataset.index;
+      if (carrito[idx].cantidad > 1) {
+        carrito[idx].cantidad--;
+      } else {
+        carrito.splice(idx, 1);
+      }
       actualizarCarrito();
     });
   });
 
-  const total = carrito.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
+  const total = carrito.reduce((s, it) => s + it.precio * it.cantidad, 0);
   document.getElementById("totalCarrito").textContent = `Total: ${total} Bs`;
-
-  const mensaje = encodeURIComponent(
-    `Hola, quiero comprar lo siguiente:\n\n` +
-    carrito.map(i => `- ${i.nombre} x${i.cantidad} (${i.precio} Bs c/u)`).join("\n") +
-    `\n\nTotal: ${total} Bs`
-  );
-
-  btnWhatsapp.href = `https://wa.me/59172553154?text=${mensaje}`;
-  btnWhatsapp.classList.remove("oculto");
-
   document.getElementById("contadorCarrito").textContent = carrito.length;
 
+  const msg = encodeURIComponent(
+    `Hola, quiero comprar:\n\n` +
+    carrito.map(i => `- ${i.nombre} x${i.cantidad} (Bs ${i.precio})`).join("\n") +
+    `\n\nTotal: ${total} Bs`
+  );
+  btnWhatsapp.href = `https://wa.me/59172553154?text=${msg}`;
+  btnWhatsapp.classList.remove("oculto");
 }
+
+// ----------------------------------
+// Eventos globales
 
 // Menú hamburguesa
 btnHamburguesa.addEventListener("click", () => {
@@ -135,70 +137,51 @@ btnHamburguesa.addEventListener("click", () => {
 });
 
 // Filtro por categoría
-document.querySelectorAll("[data-categoria]").forEach((btn) => {
-  btn.addEventListener("click", (e) => {
+document.querySelectorAll("[data-categoria]").forEach(btn => {
+  btn.addEventListener("click", e => {
     e.preventDefault();
-    const categoria = btn.dataset.categoria;
     bienvenida.style.display = "none";
     acerca.style.display = "none";
     menu.classList.remove("mostrar");
-    cargarProductos(categoria);
+    cargarProductos(btn.dataset.categoria);
   });
 });
 
-// Botón "Inicio"
-btnInicio.addEventListener("click", (e) => {
+// Inicio
+btnInicio.addEventListener("click", e => {
   e.preventDefault();
   bienvenida.style.display = "flex";
-  acerca.style.display = "block";
+  acerca.style.display   = "block";
   menu.classList.remove("mostrar");
-  cargarProductos(); // Mostrar todos
+  cargarProductos();
 });
 
-// Icono del carrito
+// Abrir/cerrar carrito
 carritoIcono.addEventListener("click", () => {
   carritoPanel.classList.toggle("mostrar");
 });
-
-// Botón cerrar carrito
 cerrarCarrito.addEventListener("click", () => {
   carritoPanel.classList.remove("mostrar");
 });
 
-// Búsqueda por texto
-const buscador = document.getElementById("buscador");
+// Buscador
 buscador.addEventListener("input", () => {
-  const texto = buscador.value.toLowerCase();
-
-  // Ocultar bienvenida y acerca
+  const t = buscador.value.toLowerCase();
   bienvenida.style.display = "none";
-  acerca.style.display = "none";
-
-  // Filtrar el DOM directamente
+  acerca.style.display     = "none";
   document.querySelectorAll(".producto-card").forEach(card => {
-    const nombre = card.querySelector("h3").textContent.toLowerCase();
-    const descripcion = card.querySelector("p").textContent.toLowerCase();
-    const coincide = nombre.includes(texto) || descripcion.includes(texto);
-
-    card.style.display = coincide ? "block" : "none";
+    const nm = card.querySelector("h3").textContent.toLowerCase();
+    const dc = card.querySelector("p").textContent.toLowerCase();
+    card.style.display = nm.includes(t) || dc.includes(t) ? "block" : "none";
   });
 });
 
-// Botón para activar/desactivar modo oscuro
-const btnModoOscuro = document.getElementById("btnModoOscuro");
-
+// Modo oscuro
 btnModoOscuro.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
-
-  // Cambiar icono según modo
-  if(document.body.classList.contains("dark-mode")) {
-    btnModoOscuro.textContent = "☀️"; // sol para modo claro
-  } else {
-    btnModoOscuro.textContent = "🌙"; // luna para modo oscuro
-  }
+  btnModoOscuro.textContent = document.body.classList.contains("dark-mode")
+    ? "☀️" : "🌙";
 });
-
 
 // Inicial
 cargarProductos();
-
