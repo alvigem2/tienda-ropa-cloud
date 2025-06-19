@@ -27,7 +27,7 @@ let carrito = [];
 // Función para cargar productos (con loader)
 async function cargarProductos(filtroCategoria = null) {
   contenedor.innerHTML = "";
-  loader.classList.remove("oculto");
+  loader.classList.remove("oculto"); // mostrar animación
 
   const productosRef = collection(db, "productos");
   const q = filtroCategoria
@@ -35,7 +35,7 @@ async function cargarProductos(filtroCategoria = null) {
     : query(productosRef);
 
   const querySnapshot = await getDocs(q);
-  loader.classList.add("oculto");
+  loader.classList.add("oculto"); // ocultar cuando termina
 
   if (querySnapshot.empty) {
     contenedor.innerHTML = "<p>No hay productos en esta categoría.</p>";
